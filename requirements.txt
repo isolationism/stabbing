@@ -1,0 +1,4 @@
+Django==1.11
+pytz
+psycopg2>=2.5
+python-memcached>=1.58
