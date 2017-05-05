@@ -125,7 +125,7 @@
               <a class="days-since__link"
                     title="Link to news article"
                     href="{{ stabbing.article_url }}">{{ stabbing.days_since }}</a>
-            days</strong>
+            day{{ stabbing.days_since|pluralize }}</strong>
 
             since the last stabbing in {{ site.name }}.
           </h1>
