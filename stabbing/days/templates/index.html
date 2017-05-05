@@ -45,9 +45,27 @@
       .days-since {
         font-family: 'Open Sans', sans-serif;
         font-weight: 300;
-        font-size: 350%;
+        font-size: 44pt;
         min-width: 10em;
         max-width: 13em;
+      }
+
+      @media screen and (max-width: 768px) {
+        .days-since {
+          font-size: 30pt;
+        }
+      }
+
+      @media screen and (max-width: 468px) {
+        .days-since {
+          font-size: 24pt;
+        }
+      }
+
+      @media screen and (min-width: 1600px) {
+        .days-since {
+          font-size: 56pt;
+        }
       }
 
       .days-since--zero,

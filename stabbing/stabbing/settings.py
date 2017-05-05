@@ -4,7 +4,7 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# SECURITY WARNING: keep the secret key used in production secret!
+# This is NOT the secret key used in production.
 SECRET_KEY = '@e&&i4qu1x!l(+*zxaicw9ue0%o+dw8%f(x0d6lgm=emz9tou$'
 
 # SECURITY WARNING: don't run with debug turned on in production!
