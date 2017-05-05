@@ -2,3 +2,4 @@
 runserver
 *.pyc
 *.pyo
+db.sqlite3

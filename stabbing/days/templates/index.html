@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+{% load static %}
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Days Since Last Stabbing In {{ site.name }}</title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,700" rel="stylesheet">
+
+    <style type="text/css">
+
+      html {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        height: 100%;
+      }
+
+      body {
+        margin: 0;
+        padding: 20px;
+        background-color: #8A0707;
+        color: #FFF;
+        font-family: 'Open Sans', sans-serif;
+        font-weight: 300;
+        text-align: center;
+        height: 100%;
+        box-sizing: border-box;
+      }
+
+      .wrapper {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+      }
+
+      .days-since {
+        font-family: 'Open Sans', sans-serif;
+        font-weight: 300;
+        font-size: 350%;
+        min-width: 10em;
+        max-width: 13em;
+      }
+
+      .days-since--zero,
+      .days-since--zero > .days-since__link,
+      .days-since--zero > .days-since__link:visited {
+        color: #F44;
+        border-bottom-color: #F44;
+      }
+
+      .days-since__link {
+        text-decoration: none;
+        display: inline-block;
+        color: #FFF;
+        border-bottom: 2px solid #FFF;
+      }
+
+      .days-since__link:visited {
+        color: #EEE;
+      }
+
+      .days-since__link:hover {
+        color: #AAF;
+        border-bottom-color: #AAF;
+      }
+
+      .days-since__link:focus {
+        color: #AAF;
+        border-bottom-color: #AAF;
+        border-bottom-style: dotted;
+        outline: none;
+      }
+
+      .days-since__link:active {
+        color: #F22;
+        border-bottom-color: #F22;
+      }
+
+      .days-since__strong {
+        font-weight: 700;
+      }
+
+    </style>
+  </head>
+
+  {% spaceless %}
+  <body class="{% block bodyclass %}{% endblock bodyclass %}">
+    {% block body %}
+
+      {% if stabbing %}
+
+        <div class="wrapper">
+
+          <h1 class="days-since">
+            It has been
+
+            <strong class="days-since__strong{% if stabbing.days_since == 0 %} days-since--zero{% endif %}">
+              <a class="days-since__link"
+                    title="Link to news article"
+                    href="{{ stabbing.article_url }}">{{ stabbing.days_since }}</a>
+            days</strong>
+
+            since the last stabbing in {{ site.name }}.
+          </h1>
+
+        </div>
+
+      {% else %}
+
+        There have been no recorded stabbings in {{ site.name }}.
+
+      {% endif %}
+
+    {% endblock body %}
+  </body>
+  {% endspaceless %}
+
+  <!-- App by Weblivion. Stabbings by Ottawans. -->
+
+</html>
