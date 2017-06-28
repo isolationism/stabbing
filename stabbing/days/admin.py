@@ -2,8 +2,17 @@ from django.contrib import admin
 from . import models
 
 
-@admin.register(models.LastStabbing)
-class LastStabbingAdmin(admin.ModelAdmin):
-    list_display = ('date_stabbed', 'article_url', 'submitted_by')
-    ordering = ('-date_stabbed',)
+class LastEventAdmin(admin.ModelAdmin):
+    list_display = ('date_event', 'article_url', 'submitted_by')
+    ordering = ('-date_event',)
     search_fields = ('article_url', 'submitted_by')
+
+
+@admin.register(models.LastStabbing)
+class LastStabbingAdmin(LastEventAdmin):
+    pass
+
+
+@admin.register(models.LastShooting)
+class LastShootingAdmin(LastEventAdmin):
+    pass

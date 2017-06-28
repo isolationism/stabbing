@@ -12,6 +12,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'localhost',
+    'localstabbing',
+    'localshooting',
     '127.0.0.1',
     'niobe',
     'niobe.isolationism.com',
@@ -44,6 +46,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.contrib.sites.middleware.CurrentSiteMiddleware',
+
+    'stabbing.middleware.ModelObjectMiddleware',  # shoot or stab?
 ]
 
 ROOT_URLCONF = 'stabbing.urls'

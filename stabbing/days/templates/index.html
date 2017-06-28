@@ -2,7 +2,7 @@
 {% load static %}
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <title>Days Since Last Stabbing In {{ site.name }}</title>
+    <title>Days Since Last {{ event.noun }} In {{ site.name }}</title>
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -20,10 +20,19 @@
       }
 
       body {
+        {% if event.noun == 'Stabbing' %}
+          background-color: #8A0707;
+        {% elif event.noun == 'Shooting' %}
+          background-color: #062E8A;
+        {% else %}
+          background-color: #444444;
+        {% endif %}
+      }
+
+      body {
+        color: #FFF;
         margin: 0;
         padding: 20px;
-        background-color: #8A0707;
-        color: #FFF;
         font-family: 'Open Sans', sans-serif;
         font-weight: 300;
         text-align: center;
@@ -68,11 +77,20 @@
         }
       }
 
+
       .days-since--zero,
       .days-since--zero > .days-since__link,
       .days-since--zero > .days-since__link:visited {
-        color: #F44;
-        border-bottom-color: #F44;
+        {% if event.noun == 'Stabbing' %}
+            color: #F44;
+            border-bottom-color: #F44;
+        {% elif event.noun == 'Shooting' %}
+          color: #859DD1;
+          border-bottom-color: #859DD1;
+        {% else %}
+          color: #999;
+          border-bottom-color: #999;
+        {% endif %}
       }
 
       .days-since__link {
@@ -114,27 +132,31 @@
   <body class="{% block bodyclass %}{% endblock bodyclass %}">
     {% block body %}
 
-      {% if stabbing %}
+      {% if event.date_event %}
 
         <div class="wrapper">
 
           <h1 class="days-since">
             It has been
 
-            <strong class="days-since__strong{% if stabbing.days_since == 0 %} days-since--zero{% endif %}">
+            <strong class="days-since__strong{% if event.days_since == 0 %} days-since--zero{% endif %}">
               <a class="days-since__link"
                     title="Link to news article"
-                    href="{{ stabbing.article_url }}">{{ stabbing.days_since }}</a>
-            day{{ stabbing.days_since|pluralize }}</strong>
+                    href="{{ event.article_url }}">{{ event.days_since }}</a>
+            day{{ event.days_since|pluralize }}</strong>
 
-            since the last stabbing in {{ site.name }}.
+            since the last {{ event.noun|lower }} in {{ site.name }}.
           </h1>
 
         </div>
 
       {% else %}
 
-        There have been no recorded stabbings in {{ site.name }}.
+        <div class="wrapper">
+          <h1 class="days-since">
+            There have been no recorded {{ event.noun|lower }}s in {{ site.name }}.
+          </h1>
+        </div>
 
       {% endif %}
 
@@ -142,6 +164,6 @@
   </body>
   {% endspaceless %}
 
-  <!-- App by Weblivion. Stabbings by Ottawans. -->
+  <!-- App by Weblivion. {{ event.noun }}s by Ottawans. -->
 
 </html>
