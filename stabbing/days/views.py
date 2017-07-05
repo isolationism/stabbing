@@ -22,7 +22,7 @@ class IndexView(TemplateView, ContextMixin):
         # Is there a model object associated with the request?
         if model_obj:
             try:
-                context['event'] = model_obj.on_site.latest('date_event')
+                context['event'] = model_obj.on_site.latest('datetime_event')
 
             # No event was found, so provide some strings to display.
             except model_obj.DoesNotExist:

@@ -3,8 +3,8 @@ from . import models
 
 
 class LastEventAdmin(admin.ModelAdmin):
-    list_display = ('date_event', 'article_url', 'submitted_by')
-    ordering = ('-date_event',)
+    list_display = ('datetime_event', 'article_url', 'submitted_by')
+    ordering = ('-datetime_event',)
     search_fields = ('article_url', 'submitted_by')
 
 

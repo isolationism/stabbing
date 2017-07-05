@@ -40,6 +40,11 @@
         box-sizing: border-box;
       }
 
+      abbr {
+        text-decoration: none;
+        border: none;
+      }
+
       .wrapper {
         display: -webkit-box;
         display: -webkit-flex;
@@ -132,18 +137,29 @@
   <body class="{% block bodyclass %}{% endblock bodyclass %}">
     {% block body %}
 
-      {% if event.date_event %}
+      {% if event.datetime_event %}
 
         <div class="wrapper">
 
           <h1 class="days-since">
             It has been
 
-            <strong class="days-since__strong{% if event.days_since == 0 %} days-since--zero{% endif %}">
-              <a class="days-since__link"
-                    title="Link to news article"
-                    href="{{ event.article_url }}">{{ event.days_since }}</a>
-            day{{ event.days_since|pluralize }}</strong>
+              {% if event.less_than_a_day_ago %}
+                <strong class="days-since__strong{% if event.days_since == 0 %} days-since--zero{% endif %}">
+                  <a class="days-since__link" title="Link to news article"
+                        href="{{ event.article_url }}">
+                    <span id="since_hours"></span><abbr title="hours">h</abbr>
+                    <span id="since_minutes"></span><abbr title="minutes">m</abbr>
+                  </a>
+                </strong>
+                and counting
+              {% else %}
+                <strong class="days-since__strong{% if event.days_since == 0 %} days-since--zero{% endif %}">
+                  <a class="days-since__link" title="Link to news article"
+                        href="{{ event.article_url }}">{{ event.days_since }}</a>
+                    day{{ event.days_since|pluralize }}
+                </strong>
+              {% endif %}
 
             since the last {{ event.noun|lower }} in {{ site.name }}.
           </h1>
@@ -165,5 +181,38 @@
   {% endspaceless %}
 
   <!-- App by Weblivion. {{ event.noun }}s by Ottawans. -->
+  <script type="text/javascript" src="{% static "easytimer-1.1.0.min.js" %}"></script>
+
+  {% if event.less_than_a_day_ago %}
+    <script>
+      (function() {
+        var timer = new Timer();
+        timer.start({
+          startValues: {
+            days: {{ event.days_since }},
+            hours: {{ event.hours_since }},
+            minutes: {{ event.minutes_since }},
+            seconds: 0
+          }
+        });
+
+        // Set initial values
+        document.getElementById('since_hours').innerText =
+          timer.getTimeValues().hours.toString();
+        document.getElementById('since_minutes').innerText =
+          timer.getTimeValues().minutes.toString();
+
+        // Watch for updates
+        timer.addEventListener('hoursUpdated', function(e) {
+          document.getElementById('since_hours').innerText =
+            timer.getTimeValues().hours.toString();
+        });
+        timer.addEventListener('minutesUpdated', function(e) {
+          document.getElementById('since_minutes').innerText =
+            timer.getTimeValues().minutes.toString();
+        });
+      })();
+    </script>
+  {% endif %}
 
 </html>
