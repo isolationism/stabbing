@@ -39,12 +39,14 @@ class _AbstactEvent(models.Model):
     @property
     def hours_since(self):
         """Returns the integer hours since the last event"""
-        return math.floor((timezone.now() - self.datetime_event).seconds / 3600)
+        return math.floor((timezone.now() -
+                           self.datetime_event).seconds // 3600)
 
     @property
     def minutes_since(self):
         """Returns the integer minutes since the last event"""
-        return math.floor((timezone.now() - self.datetime_event).seconds / 60)
+        return math.floor((timezone.now() -
+                           self.datetime_event).seconds // 60) % 60
 
     verb = None  # Define this in your subclass
     noun = None  # Define this in your subclass
