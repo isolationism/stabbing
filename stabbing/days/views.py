@@ -22,9 +22,11 @@ class IndexView(TemplateView, ContextMixin):
         # Is there a model object associated with the request?
         if model_obj:
             try:
-                context['event'] = model_obj.on_site\
+                context['events'] = model_obj.on_site\
                     .filter(is_pending_verification=False)\
-                    .latest('datetime_event')
+                    .order_by('-datetime_event')
+
+                context['event'] = context['events'][0]
 
             # No event was found, so provide some strings to display.
             except model_obj.DoesNotExist:

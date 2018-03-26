@@ -1,7 +1,7 @@
 
 import json
 import math
-import urllib.parse, urllib.request
+import urllib.parse, urllib.request, urllib.error
 from datetime import date, datetime, timedelta
 from decimal import Decimal
 
@@ -39,7 +39,7 @@ class _AbstractLocation(models.Model):
         abstract = True
 
     def save(self, *args, **kwargs):
-        """Save latitude and longitude information for the locatino"""
+        """Save latitude and longitude information for the location"""
         self.lat, self.lng = self.geocode(address={
             "number": self.number,
             "street": self.street,
@@ -65,7 +65,10 @@ class _AbstractLocation(models.Model):
             "http://maps.googleapis.com/maps/api/geocode/json",
             urllib.parse.urlencode({"address": address, "sensor": False})
         ])
-        response = urllib.request.urlopen(maps_api_url)
+        try:
+            response = urllib.request.urlopen(maps_api_url)
+        except urllib.error.HTTPError:
+            return 0, 0
         data = json.loads(response.read().decode('utf8'))
 
         if data['status'] == 'OK':
@@ -73,7 +76,8 @@ class _AbstractLocation(models.Model):
             lng = data['results'][0]['geometry']['location']['lng']
             return Decimal(lat), Decimal(lng)
         else:
-            raise ValueError("Couldn't determine geographic location.")
+            return 0, 0
+            #raise ValueError("Couldn't determine geographic location.")
 
 
 class _AbstactEvent(models.Model):
